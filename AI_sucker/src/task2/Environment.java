@@ -12,6 +12,8 @@ public class Environment {
 	public static final String LOCATION_B = "B";
 	public static final String LOCATION_C = "C";
 	public static final String LOCATION_D = "D";
+	public static int measurePoints = 0;
+	public static boolean hasMoved = true; 
 
 	public enum LocationState {
 		CLEAN, DIRTY
@@ -42,58 +44,74 @@ public class Environment {
         if (action == MOVE_LEFT) {
             if(agentLocation == LOCATION_A) {
                 envState.setAgentLocation(LOCATION_A);
+                hasMoved = false;
         	}
             else if(agentLocation == LOCATION_D) {
                 envState.setAgentLocation(LOCATION_D);
+                hasMoved = false;
         	}    
             else if(agentLocation == LOCATION_B) {
                 envState.setAgentLocation(LOCATION_A);
+                hasMoved = true;
         	}   
             else if(agentLocation == LOCATION_C) {
                 envState.setAgentLocation(LOCATION_D);
+                hasMoved = true;
         	}    
             
         } else if (action == MOVE_RIGHT) {
             if(agentLocation == LOCATION_A) {
                 envState.setAgentLocation(LOCATION_B);
+                hasMoved = true;
         	}
             else if(agentLocation == LOCATION_B) {
                 envState.setAgentLocation(LOCATION_B);
+                hasMoved = false;
         	}    
             else if(agentLocation == LOCATION_C) {
                 envState.setAgentLocation(LOCATION_C);
+                hasMoved = false;
         	}   
             else if(agentLocation == LOCATION_D) {
                 envState.setAgentLocation(LOCATION_C);
+                hasMoved = true;
         	}            
             
         } else if (action == MOVE_DOWN) {
 
             if(agentLocation == LOCATION_A) {
                 envState.setAgentLocation(LOCATION_D);
+                hasMoved = true;
         	}
             else if(agentLocation == LOCATION_D) {
                 envState.setAgentLocation(LOCATION_D);
+                hasMoved = false;
         	}    
             else if(agentLocation == LOCATION_B) {
                 envState.setAgentLocation(LOCATION_C);
+                hasMoved = true;
         	}   
             else if(agentLocation == LOCATION_C) {
                 envState.setAgentLocation(LOCATION_C);
+                hasMoved = false;
         	}    
             
         } else if (action == MOVE_UP) {
             if(agentLocation == LOCATION_A) {
                 envState.setAgentLocation(LOCATION_A);
+                hasMoved = false;
         	}
             else if(agentLocation == LOCATION_D) {
                 envState.setAgentLocation(LOCATION_A);
+                hasMoved = true;
         	}    
             else if(agentLocation == LOCATION_B) {
                 envState.setAgentLocation(LOCATION_B);
+                hasMoved = false;
         	}   
             else if(agentLocation == LOCATION_C) {
                 envState.setAgentLocation(LOCATION_B);
+                hasMoved = true;
         	}    
             
         }
@@ -130,6 +148,7 @@ public class Environment {
 				&& (es.getLocationState(LOCATION_B) == LocationState.CLEAN))
 			isDone = true;// if both squares are clean, then agent do not need to do any action
 		es.display();
+		PerformanceMeasure(anAction);
 	}
 
 	public void step(int n) {
@@ -146,5 +165,18 @@ public class Environment {
 			System.out.println("step: " + i++);
 			step();
 		}
+	}
+	public void PerformanceMeasure(Action action) {
+
+		if(action == SUCK_DIRT) {
+			measurePoints = measurePoints + 500;
+		}
+		if(!hasMoved) {
+			measurePoints = measurePoints - 100;
+		}
+		else
+			measurePoints = measurePoints - 10;
+		
+		System.out.println("Performance Measure: " + measurePoints);
 	}
 }
