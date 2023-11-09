@@ -62,12 +62,12 @@ public class AStarSearchAlgo implements IInformedSearchAlgo {
 			return root;
 		if (start.equals(goal))
 			return new Node(goal);
-		Node strartNode = execute(root, start);
-		if (strartNode == null)
+		Node startNode = execute(root, start);
+		if (startNode == null)
 			return null;
-		strartNode.setParent(null);
-		strartNode.setG(0);
-		return execute(strartNode, goal);
+		startNode.setParent(null);
+		startNode.setG(0);
+		return execute(startNode, goal);
 	}
 
 	public boolean isAdmissibleH(Node root, String goal) {
